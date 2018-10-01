@@ -138,10 +138,6 @@ data_pre = bind_rows(data_pre_2016, data_pre_2017) %>%
   mutate(month = month.name[month])
 ```
 
-
-
-
-
-
+In the Mr. Trash Wheel dataset, there are `r ncol(tw_data)` variables and and `r nrow(tw_data)` observations. According to the introduction of Mr. Trash Wheel, the key variables here are `dumpster`, `date`, `weight_tons` and `homes_powered`. The median number of sports balls in a dumpster in 2016 is `r median(filter(tw_data, year == 2016)$sports_balls)`. In the precipitation dataset, there are `r ncol(data_pre)` variables and `r nrow(data_pre)`. From these 20 observations, `r nrow(data_pre_2016)` observations come from 2016, `r nrow(data_pre_2017)` observations come from 2017. The key variables here are `month`, `year` and `total`. The total precipitation in 2017 was `r sum(data_pre_2017$total)`.
 
  
