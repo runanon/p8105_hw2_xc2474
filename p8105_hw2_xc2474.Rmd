@@ -102,10 +102,18 @@ A: There are 60 distinct station serve the A train, and there are 17 of them are
 
 # Problem 2
 
-import 
+import Mr. Trash Wheel xlsx file
+
+```{r}
+tw_data = readxl::read_excel("./data/HealthyHarborWaterWheelTotals2017-9-26.xlsx") %>%
+  janitor::clean_names()
+```
+
+
+
+
 ```{r}
 
 ```
-
 
 
