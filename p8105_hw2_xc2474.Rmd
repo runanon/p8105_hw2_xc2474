@@ -27,7 +27,7 @@ clean the data
 ```{r}
 nyc_sub_tidy = nyc_sub %>%
   janitor::clean_names() %>%
-  select(line:entry, vending, ada, ada_notes) %>%
+  select(line:entry, vending, ada) %>%
   mutate(entry = recode(entry, YES = TRUE, NO = FALSE))
 ```
 
@@ -56,23 +56,13 @@ A: There are 465 distinct stations.
 
 Q2: How many stations are ADA compliant?
 
-1) If we define "ADA compliant" in a broad way, which means as long as ada=TRUE, we consider this station as ADA compliant:
+Here we define "ADA compliant" in a broad way, which means as long as ada=TRUE, we consider this station as ADA compliant:
 ```{r}
 nyc_sub_tidy %>%
   filter(ada == TRUE) %>%
   nrow()
 ```
 There are 468 stations are ADA compliant.
-
-
-2) However, if we define "ADA compliant" in a way that only the ADA service is available is "ADA compliant":
-
-```{r}
-nyc_sub_tidy %>%
-  filter(ada == TRUE, is.na(ada_notes)) %>%
-  nrow()
-```
-??????WTF
 
 Q3: What proportion of station entrances / exits without vending allow entrance?
 
@@ -82,6 +72,40 @@ nrow(filter(nyc_sub_tidy, vending == "NO")) / nrow(nyc_sub_tidy)
 
 A: The proportion of station entrances / exits without vending allow entrance is 0.09796574.
 
+Reformat data so that route number and route name are distinct variables
+
+```{r}
+nyc_sub_tidy = nyc_sub_tidy %>%
+  gather(key = "route_number", value = "route_name", route1:route11) %>%
+  separate(route_number, into = c('remove', 'route_number'), sep = 5) %>%
+  select(-remove)
+```
+
+Q: How many distinct stations serve the A train? Of the stations that serve the A train, how many are ADA compliant?
+
+```{r}
+nyc_sub_tidy %>%
+  filter(route_name == "A") %>%
+  distinct(station_name, line) %>%
+  nrow()
+```
+
+```{r}
+nyc_sub_tidy %>%
+  filter(route_name == "A", ada == TRUE) %>%
+  distinct(station_name, line) %>%
+  nrow()
+```
+
+A: There are 60 distinct station serve the A train, and there are 17 of them are ADA compliant.
+
+
+# Problem 2
+
+import 
+```{r}
+
+```
 
 
 
