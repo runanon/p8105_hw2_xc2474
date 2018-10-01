@@ -13,7 +13,8 @@ library(knitr)
 ```
 
 
-#Problem 1
+# Problem 1
+## Read data
 
 import csv file
 
@@ -26,11 +27,11 @@ clean the data
 ```{r}
 nyc_sub_tidy = nyc_sub %>%
   janitor::clean_names() %>%
-  select(line:entry, vending, ada) %>%
+  select(line:entry, vending, ada, ada_notes) %>%
   mutate(entry = recode(entry, YES = TRUE, NO = FALSE))
 ```
 
-This dataset contains 19 variables, which is line, station_name, stations_latitude, station longtitude, route1, route2, route3, route4, route5, route6, route7, route8, route9, route10, route11, entrance_type, entry, vending and ada. 
+This dataset contains `r ncol(nyc_sub_tidy)` variables, which is `r names(nyc_sub_tidy)`
 
 My data cleaning steps are as follows:
 1. import the data.
@@ -42,10 +43,44 @@ The dimension of the resulting dataset is `r nrow(nyc_sub_tidy)` rows x `r ncol(
 
 I think although these data are tidier than before, but they are not tidy enough.
 
+## Question1
+
+Q1: How many distinct stations are there?
+
+```{r}
+distinct(nyc_sub_tidy, station_name, line) %>%
+  nrow()
+```
+
+A: There are 465 distinct stations.
+
+Q2: How many stations are ADA compliant?
+
+1) If we define "ADA compliant" in a broad way, which means as long as ada=TRUE, we consider this station as ADA compliant:
+```{r}
+nyc_sub_tidy %>%
+  filter(ada == TRUE) %>%
+  nrow()
+```
+There are 468 stations are ADA compliant.
 
 
+2) However, if we define "ADA compliant" in a way that only the ADA service is available is "ADA compliant":
 
+```{r}
+nyc_sub_tidy %>%
+  filter(ada == TRUE, is.na(ada_notes)) %>%
+  nrow()
+```
+??????WTF
 
+Q3: What proportion of station entrances / exits without vending allow entrance?
+
+```{r}
+nrow(filter(nyc_sub_tidy, vending == "NO")) / nrow(nyc_sub_tidy)
+```
+
+A: The proportion of station entrances / exits without vending allow entrance is 0.09796574.
 
 
 
