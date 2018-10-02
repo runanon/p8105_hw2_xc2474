@@ -78,10 +78,11 @@ In this case, there are 76 stations are ADA compliant.
 Q3: What proportion of station entrances / exits without vending allow entrance?
 
 ```{r}
-nrow(filter(nyc_sub_tidy, vending == "NO")) / nrow(nyc_sub_tidy)
+nrow(filter(nyc_sub_tidy, vending == "NO", entry == "TRUE")) / 
+  nrow(filter(nyc_sub_tidy, vending == "NO"))
 ```
 
-A: The proportion of station entrances / exits without vending allow entrance is 0.09796574.
+A: The proportion of station entrances / exits without vending allow entrance is 0.3770492.
 
 Reformat data so that route number and route name are distinct variables
 
@@ -92,7 +93,7 @@ nyc_sub_tidy = nyc_sub_tidy %>%
   select(-remove)
 ```
 
-Q: How many distinct stations serve the A train? Of the stations that serve the A train, how many are ADA compliant?
+Q4: How many distinct stations serve the A train? Of the stations that serve the A train, how many are ADA compliant?
 
 ```{r}
 nyc_sub_tidy %>%
