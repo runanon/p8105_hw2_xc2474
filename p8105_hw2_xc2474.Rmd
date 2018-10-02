@@ -14,7 +14,7 @@ library(knitr)
 
 
 # Problem 1
-## Read data
+## Read and clean data
 
 import csv file
 
@@ -43,7 +43,7 @@ The dimension of the resulting dataset is `r nrow(nyc_sub_tidy)` rows x `r ncol(
 
 I think although these data are tidier than before, but they are not tidy enough.
 
-## Question1
+## Questions
 
 Q1: How many distinct stations are there?
 
@@ -101,6 +101,7 @@ A: There are 60 distinct station serve the A train, and there are 17 of them are
 
 
 # Problem 2
+## Read and clean data
 
 import Mr. Trash Wheel xlsx file, and clean the data:
 
@@ -138,6 +139,87 @@ data_pre = bind_rows(data_pre_2016, data_pre_2017) %>%
   mutate(month = month.name[month])
 ```
 
+## Comment
 In the Mr. Trash Wheel dataset, there are `r ncol(tw_data)` variables and and `r nrow(tw_data)` observations. According to the introduction of Mr. Trash Wheel, the key variables here are `dumpster`, `date`, `weight_tons` and `homes_powered`. The median number of sports balls in a dumpster in 2016 is `r median(filter(tw_data, year == 2016)$sports_balls)`. In the precipitation dataset, there are `r ncol(data_pre)` variables and `r nrow(data_pre)`. From these 20 observations, `r nrow(data_pre_2016)` observations come from 2016, `r nrow(data_pre_2017)` observations come from 2017. The key variables here are `month`, `year` and `total`. The total precipitation in 2017 was `r sum(data_pre_2017$total)`.
 
- 
+# Problem 3
+## Read and clean data
+
+```{r}
+library(p8105.datasets)
+```
+
+Import BRFSS data
+
+```{r}
+brfss_data = brfss_smart2010 %>%
+  filter(Topic == 'Overall Health') %>%
+  select(-c(Class, Topic, Question, Sample_Size, Confidence_limit_Low:GeoLocation)) %>%
+  spread(key = Response, value = Data_value) %>%
+  janitor::clean_names() %>%
+  select(year, locationabbr, locationdesc, excellent, very_good, good, fair, poor) %>%
+  mutate(high_prop = excellent + very_good)
+```
+
+## Questions
+
+Q1: 
+
+1) How many unique locations are included in the dataset?
+
+```{r}
+brfss_data %>%
+  distinct(locationdesc) %>%
+  nrow()
+```
+A: There are 404 unique locations are included in the dataset.
+
+2) Is every state represented? 
+```{r}
+brfss_data %>%
+  distinct(locationabbr) %>%
+  nrow()
+```
+A: There are 51 unique states in this dataset, which equals to the number of states in the United States.
+
+3)  What state is observed the most?
+```{r}
+count(brfss_data, locationabbr, sort = TRUE)
+```
+A: NJ
+
+Q2: In 2002, what is the median of the “Excellent” response value?
+
+```{r}
+median(filter(brfss_data, year == 2002)$excellent, na.rm = TRUE)
+```
+
+A: Through removing NA value from the dataset, we get the median of "Excellent" response value which is 23.6. If we do not remove NA value from the dataset, the median will be NA.
+
+Q3: Make a histogram of “Excellent” response values in the year 2002.
+
+A: The histogram is shown as below:
+
+```{r}
+brfss_data %>%
+  filter(year == 2002) %>%
+  ggplot(aes(x = excellent)) + 
+  geom_histogram()
+```
+
+Q4: Make a scatterplot showing the proportion of “Excellent” response values in New York County and Queens County (both in NY State) in each year from 2002 to 2010.
+
+A: As the range of year in the original dataset is exactly from 2002 to 2010, there is no need to filter the dataset according to the given period of the year. The scatterplot is shown as below:
+
+```{r}
+brfss_data %>%
+  filter(locationdesc == 'NY - Queens County' | locationdesc == 'NY - New York County') %>%
+  ggplot(aes(x = year, y = excellent)) +
+  geom_point(aes(color = locationdesc))
+```
+
+
+
+
+
+
