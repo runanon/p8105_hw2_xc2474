@@ -56,13 +56,21 @@ A: There are 465 distinct stations.
 
 Q2: How many stations are ADA compliant?
 
-Here we define "ADA compliant" in a broad way, which means as long as ada=TRUE, we consider this station as ADA compliant:
+If we define "ADA compliant" in a broad way, which means as long as ada=TRUE, we consider this station as ADA compliant:
 ```{r}
 nyc_sub_tidy %>%
   filter(ada == TRUE) %>%
   nrow()
 ```
 There are 468 stations are ADA compliant.
+
+However, look the ADA.Notes in the original dataset, for some station, the ADA services are still in construction, or not the exact "ADA". If we define "ADA comliant" in a restricted way, we should exclude those "so-called" ADA.
+```{r}
+nyc_sub %>%
+  filter(ADA == TRUE & ADA.Notes == '') %>%
+  nrow()
+```
+There are 415 stations are ADA compliant.
 
 Q3: What proportion of station entrances / exits without vending allow entrance?
 
