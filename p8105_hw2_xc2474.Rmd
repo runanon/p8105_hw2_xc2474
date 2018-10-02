@@ -18,16 +18,10 @@ library(knitr)
 # Problem 1
 ## Read and clean data
 
-import csv file
+import and clean the data
 
 ```{r}
-nyc_sub = read.csv("./data/NYC_Transit_Subway_Entrance_And_Exit_Data.csv")
-```
-
-clean the data
-
-```{r}
-nyc_sub_tidy = nyc_sub %>%
+nyc_sub_tidy = read.csv("./data/NYC_Transit_Subway_Entrance_And_Exit_Data.csv") %>%
   janitor::clean_names() %>%
   select(line:entry, vending, ada) %>%
   mutate(entry = recode(entry, YES = TRUE, NO = FALSE))
@@ -63,24 +57,13 @@ A: There are 465 distinct stations.
 
 Q2: How many stations are ADA compliant?
 
-If we define "ADA compliant" in a broad way, which means as long as ada=TRUE, we consider this station as ADA compliant:
 ```{r}
 nyc_sub_tidy %>%
   filter(ada == TRUE) %>%
   distinct(station_name, line) %>%
   nrow()
 ```
-In this case, there are 84 stations are ADA compliant.
-
-However, look the ADA.Notes in the original dataset, for some station, the ADA services are still in construction, or not the exact "ADA". If we define "ADA comliant" in a restricted way, we should exclude those so-called ADA.
-```{r}
-nyc_sub %>%
-  janitor::clean_names() %>%
-  filter(ada == TRUE & ada_notes == '') %>%
-  distinct(station_name, line) %>%
-  nrow()
-```
-In this case, there are 76 stations are ADA compliant.
+A: There are 84 stations are ADA compliant.
 
 Q3: What proportion of station entrances / exits without vending allow entrance?
 
