@@ -34,10 +34,15 @@ nyc_sub_tidy = nyc_sub %>%
 This dataset contains `r ncol(nyc_sub_tidy)` variables, which is `r names(nyc_sub_tidy)`
 
 My data cleaning steps are as follows:
+
 1. import the data.
+
 2. apply janitor::clean_names() function to change the variable names into a more readable way (all lowercase and only contain "_").
+
 3. retain the variables we want using select funtion, which will remove the variables we don't need.
+
 4. use recode() function to change all "YES" and "NO" in entry variable into correspongding "TRUE" and "FALSE" (make entry variable to a logical variable), and use mutate() function to retain the change in nyc_sub_tidy dataset.
+
 
 The dimension of the resulting dataset is `r nrow(nyc_sub_tidy)` rows x `r ncol(nyc_sub_tidy)`
 
