@@ -1,6 +1,8 @@
 ---
 title: "p8105_hw2_xc2474"
 output: github_document
+author: "Xinlei Chen"
+date: 2018-10-01
 ---
 
 ```{r setup, include=FALSE}
@@ -242,7 +244,6 @@ brfss_data %>%
 ```
 
 
-
-
+(I'm really trying to commit more times in this assignment, so this time please please please don't deduct my points because of this)
 
 
