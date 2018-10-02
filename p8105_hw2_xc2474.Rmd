@@ -46,7 +46,7 @@ My data cleaning steps are as follows:
 
 The dimension of the resulting dataset is `r nrow(nyc_sub_tidy)` rows x `r ncol(nyc_sub_tidy)` columns.
 
-I think although these data are tidier than before, but they are not tidy enough.
+I think although these data are tidier than before, but they are not tidy enough, like columns from route1 to route11, it's not optimal.
 
 ## Questions
 
