@@ -114,8 +114,9 @@ import Mr. Trash Wheel xlsx file, and clean the data:
 
 
 ```{r}
-tw_data = readxl::read_excel("./data/HealthyHarborWaterWheelTotals2017-9-26.xlsx", range = 'A2:N258' ) %>%
+tw_data = readxl::read_excel("./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx") %>%
   janitor::clean_names() %>%
+  select(-x_1) %>%
   filter(dumpster != "NA") %>%
   mutate(sports_balls = as.integer(sports_balls))
 ```
@@ -123,12 +124,12 @@ tw_data = readxl::read_excel("./data/HealthyHarborWaterWheelTotals2017-9-26.xlsx
 Read and clean precipitation data for 2016 and 2017. For each, omit rows without precipitation data and add a variable year.
 
 ```{r}
-data_pre_2016 = readxl::read_excel("./data/HealthyHarborWaterWheelTotals2017-9-26.xlsx", sheet = '2016 Precipitation', range = "A2:B14") %>%
+data_pre_2016 = readxl::read_excel("./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = '2016 Precipitation', range = "A2:B14") %>%
   janitor::clean_names() %>%
   filter(total != 'NA') %>%
   mutate(year = 2016)
 
-data_pre_2017 = readxl::read_excel("./data/HealthyHarborWaterWheelTotals2017-9-26.xlsx", sheet = '2017 Precipitation', range = "A2:B14") %>%
+data_pre_2017 = readxl::read_excel("./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = '2017 Precipitation', range = "A2:B14") %>%
   janitor::clean_names() %>%
   filter(total != 'NA') %>%
   mutate(year = 2017)
