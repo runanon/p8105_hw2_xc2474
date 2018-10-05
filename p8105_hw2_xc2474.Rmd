@@ -114,9 +114,8 @@ import Mr. Trash Wheel xlsx file, and clean the data:
 
 
 ```{r}
-tw_data = readxl::read_excel("./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx") %>%
+tw_data = readxl::read_excel("./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx", range = "A2:N338") %>%
   janitor::clean_names() %>%
-  select(-x_1) %>%
   filter(dumpster != "NA") %>%
   mutate(sports_balls = as.integer(sports_balls))
 ```
